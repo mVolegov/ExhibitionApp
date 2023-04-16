@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Справочники";
+}
+
+<div class="text-center">
+    <h1>Справочники</h1>
+</div>
+
+<div class="row g-2">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div class="card text-center mt-5">
+            <table class="table text-center table-striped table-borderless table-hover">
+                <tbody>
+                <tr>
+                    <th>Типы экспонатов (ТН ВЭД)</th>
+                    <td>
+                        <form asp-action="GetAllExhibitTypes" method="get">
+                            <input class="btn btn-outline-primary" type="submit" value="Детали"/>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Города (ОКАТО)</th>
+                    <td>
+                        <form asp-action="GetAllCities" method="get">
+                            <input class="btn btn-outline-primary" type="submit" value="Детали"/>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Улицы (КЛАДР)</th>
+                    <td>
+                        <form asp-action="GetAllStreets" method="get">
+                            <input class="btn btn-outline-primary" type="submit" value="Детали"/>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Страны (ОКСМ)</th>
+                    <td>
+                        <form asp-action="GetAllCountries" method="get">
+                            <input class="btn btn-outline-primary" type="submit" value="Детали"/>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Пол (ОКИН)</th>
+                    <td>
+                        <form asp-action="GetAllSexes" method="get">
+                            <input class="btn btn-outline-primary" type="submit" value="Детали"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-4"></div>
+</div>

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ExhibitionApp.Models.Warehouse>
+
+@{
+    ViewData["Title"] = "GetAllWarehouses";
+}
+
+<div class="text-center mt-3">
+    <a class="btn btn-success" asp-action="Create">Добавить новый склад</a>
+</div>
+
+<h1>Список доступных складов:</h1>
+
+<div class="card">
+    <table class="table text-center table-striped table-borderless table-hover">
+        <thead>
+        <tr>
+            <th>
+                Номер склада
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Area)
+            </th>
+            <th>
+                Город
+            </th>
+            <th>
+                Улица
+            </th>
+            <th>
+                Номер дома
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.Street.City.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.Street.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.HouseNumber)
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

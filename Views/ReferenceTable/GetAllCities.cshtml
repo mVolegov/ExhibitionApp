@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ExhibitionApp.Models.City>
+
+@{
+    ViewData["Title"] = "GetAllCities";
+}
+
+<div class="text-center">
+    <h1>Классификатор ОКАТО</h1>
+    <h6 class="mb-3">Общероссийский классификатор объектов административно-территориального деления</h6>
+</div>
+
+<div>
+    <a class="btn btn-primary mb-3" asp-action="GetAllExtraTables"><b>&#8592</b> Назад к списку классификаторов</a>
+</div>
+
+<div class="card">
+    <table class="table text-center table-striped table-borderless table-hover">
+        <thead>
+        <tr>
+            <th>
+                Код города
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                @*<td>*@
+                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+                @*</td>*@
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

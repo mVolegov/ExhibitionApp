@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ExhibitionApp.Models.Address>
+
+@{
+    ViewData["Title"] = "GetAllAddresses";
+}
+
+<div class="text-center mt-3">
+    <a class="btn btn-success" asp-action="Create">Добавить новый адрес</a>
+</div>
+
+<h1>Список доступных адресов:</h1>
+
+<div class="card">
+    <table class="table text-center table-striped table-borderless table-hover">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Street.City.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Street.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HouseNumber)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street.City.Name)
+                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street.Name)
+                    </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HouseNumber)
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,45 @@
+﻿@model ExhibitionApp.Models.Address
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <div class="text-center">
+        <h3>Добавление нового адреса</h3>
+    </div>
+
+    <hr/>
+    
+    <div>
+        <a class="btn btn-outline-primary" asp-action="GetAllAddresses"><b>&#8592</b> Назад к списку адресов</a>
+    </div>
+
+    <form asp-action="Create">
+        <div class="row g-2 mt-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-5 px-3">
+                <label asp-for="Street.CityId" class="control-label">Город</label>
+                <select id="lstCityId" asp-for="Street.CityId" class="form-select" asp-items="ViewBag.Cities"
+                        onchange="FillStreets(this, 'lstStreet');"></select>
+            </div>
+            <div class="col-sm-5 px-3">
+                <label asp-for="StreetId" class="control-label">Улица</label>
+                <select id="lstStreet" asp-for="StreetId" class="form-select" asp-items="ViewBag.Streets"></select>
+            </div>
+            <div class="col-sm-2 px-3">
+                <label asp-for="HouseNumber" class="control-label">Номер дома</label>
+                <input asp-for="HouseNumber" class="form-control"/>
+                <span asp-validation-for="HouseNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="rog g-2 mt-5 text-center">
+            <input type="submit" value="Добавить" class="btn btn-outline-success" />
+        </div>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
