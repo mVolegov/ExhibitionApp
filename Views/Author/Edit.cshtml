@@ -1,0 +1,62 @@
+﻿@model ExhibitionApp.Models.Author
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h3>Обновление данных автора под номером: @ViewBag.AuthorId</h3>
+</div>
+
+<form asp-action="Edit">
+    <div class="row g-4 mt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id"/>
+        <div class="col-sm-4">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-4">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control"/>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="col-sm-4">
+            <label asp-for="Patronymic" class="control-label"></label>
+            <input asp-for="Patronymic" class="form-control"/>
+            <span asp-validation-for="Patronymic" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="Pseudonym" class="control-label"></label>
+            <input asp-for="Pseudonym" class="form-control"/>
+            <span asp-validation-for="Pseudonym" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="Birthday" class="control-label"></label>
+            <input type="date" asp-for="Birthday" class="form-control" value=@Model.Birthday.ToString("O")/>
+            <span asp-validation-for="Birthday" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="CountryId" class="control-label">Страна</label>
+            <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries"></select>
+            <span asp-validation-for="CountryId" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label asp-for="SexId" class="control-label">Пол</label>
+            <select asp-for="SexId" class="form-control" asp-items="ViewBag.Genders"></select>
+            <span asp-validation-for="SexId" class="text-danger"></span>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+
+<div class="text-center mt-4">
+    <a class="btn btn-outline-warning" asp-action="GetAllAuthors">Отмена</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

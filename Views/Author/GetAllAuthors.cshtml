@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ExhibitionApp.Models.Author>
+
+@{
+    ViewData["Title"] = "GetAllAuthors";
+}
+
+<div class="text-center mt-3">
+    <a class="btn btn-success" asp-action="Create">Добавить нового автора</a>
+</div>
+
+<h1>Список авторов:</h1>
+
+<div class="card">
+    <table class="table text-center table-striped table-borderless table-hover">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patronymic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pseudonym)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sex)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronymic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pseudonym)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.ShortName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sex.Name)
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

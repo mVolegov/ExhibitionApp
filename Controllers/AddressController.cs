@@ -44,7 +44,6 @@ namespace ExhibitionApp.Controllers
         {
             address.Street = _dbContext.Streets.FirstOrDefault(street => street.Id == address.StreetId);
 
-            12
             _dbContext.Addresses.Add(address);
             _dbContext.SaveChanges();
 

@@ -1,0 +1,63 @@
+﻿@model ExhibitionApp.Models.Author
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <div class="text-center">
+        <h3>Добавление нового автора</h3>
+    </div>
+
+    <hr/>
+        
+    <div>
+        <a class="btn btn-outline-primary" asp-action="GetAllAuthors"><b>&#8592</b> Назад к списку авторов</a>
+    </div>
+
+    <form asp-action="Create">
+        <div class="row g-4 mt-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-sm-4">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="col-sm-4">
+                <label asp-for="Patronymic" class="control-label"></label>
+                <input asp-for="Patronymic" class="form-control"/>
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="Pseudonym" class="control-label"></label>
+                <input asp-for="Pseudonym" class="form-control"/>
+                <span asp-validation-for="Pseudonym" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="Birthday" class="control-label"></label>
+                <input type="date" asp-for="Birthday" class="form-control"/>
+                <span asp-validation-for="Birthday" class="text-danger"></span>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="CountryId" class="control-label">Страна</label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries"></select>
+            </div>
+            <div class="col-sm-3">
+                <label asp-for="SexId" class="control-label">Пол</label>
+                <select asp-for="SexId" class="form-control" asp-items="ViewBag.Genders"></select>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Добавить" class="btn btn-outline-success"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -23,12 +23,21 @@
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item mx-1">
                                     <a 
-                                        class=@(ViewContext.RouteData.Values["Action"].ToString() == "GetAllExhibits" ? 
+                                        class=@(ViewContext.RouteData.Values["controller"].ToString() == "Exhibit" ? 
                                                   "nav-link text-white active" : "nav-link text-white")
                                         asp-area="" 
                                         asp-controller="Exhibit" 
                                         asp-action="GetAllExhibits">
                                         Экспонаты
+                                    </a>
+                                </li>
+                                <li class="nav-item mx-1">
+                                    <a class=@(ViewContext.RouteData.Values["controller"].ToString() == "Author" ?
+                                       "nav-link text-white active" : "nav-link text-white")
+                                       asp-area=""
+                                       asp-controller="Author"
+                                       asp-action="GetAllAuthors">
+                                        Авторы
                                     </a>
                                 </li>
                                 <li class="nav-item mx-1">
