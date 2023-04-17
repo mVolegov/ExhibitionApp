@@ -2,6 +2,7 @@
 using ExhibitionApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExhibitionApp.Controllers
 {
@@ -17,7 +18,10 @@ namespace ExhibitionApp.Controllers
         [HttpGet]
         public IActionResult GetAllExhibits()
         {
-            List<Exhibit> allExhibits = _dbContext.Exhibits.ToList();
+            List<Exhibit> allExhibits = _dbContext
+                .Exhibits
+                .Include(e => e.Authors)
+                .ToList();
 
             return View(allExhibits);
         }
@@ -28,16 +32,15 @@ namespace ExhibitionApp.Controllers
             SelectList exhibitTypes = new SelectList(_dbContext.ExhibitTypes, "Id", "TypeName");
             ViewBag.ExhibitTypes = exhibitTypes;
 
-            SelectList warehouses = new SelectList(_dbContext.Warehouses, "Id", "Address");
+            var warehousesFromDb = _dbContext
+                .Warehouses
+                .Include(w => w.Address.Street.City);
+            SelectList warehouses = new SelectList(warehousesFromDb, "Id", "Address");
             ViewBag.Warehouses = warehouses;
 
-            //ViewBag.ExhibitTypes = new SelectList(_dbContext.ExhibitTypes.ToList());
-            //ViewBag.WarehousesAddresses = new SelectList(_dbContext.Warehouses.ToList());
-
-            //ViewBag.ExhibitTypes = _dbContext.ExhibitTypes.ToList();
-
-            //ViewData["ExhibitTypes"] = new SelectList(_dbContext.ExhibitTypes.ToList(), "Id", "TypeName", 9701100000);
-            //ViewData["WarehousesAddresses"] = new SelectList(_dbContext.Warehouses.ToList(), "Id", "Address", 1);
+            var authorsFromDb = _dbContext.Authors;
+            SelectList authors = new SelectList(authorsFromDb, "Id", "Pseudonym");
+            ViewBag.Authors = authors;
 
             return View();
         }

@@ -34,6 +34,7 @@ namespace ExhibitionApp.Models
         public virtual List<Exhibition>? Exhibitions { get; set; } = new List<Exhibition>();
 
         [ForeignKey("Warehouse")]
+        [DisplayName("Склад")]
         public long? WarehouseId { get; set; }
 
         public virtual Warehouse Warehouse { get; set; }

@@ -20,5 +20,10 @@ namespace ExhibitionApp.Models
         public virtual Address Address { get; set; }
 
         public virtual List<Exhibit>? Exhibits { get; set; } = new List<Exhibit>();
+
+        public override string ToString()
+        {
+            return Address.ToString();
+        }
     }
 }
