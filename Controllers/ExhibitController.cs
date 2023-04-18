@@ -39,7 +39,7 @@ namespace ExhibitionApp.Controllers
             ViewBag.Warehouses = warehouses;
 
             var authorsFromDb = _dbContext.Authors;
-            SelectList authors = new SelectList(authorsFromDb, "Id", "Pseudonym");
+            MultiSelectList authors = new MultiSelectList(authorsFromDb, "Id", "Pseudonym");
             ViewBag.Authors = authors;
 
             return View();
@@ -50,6 +50,7 @@ namespace ExhibitionApp.Controllers
         {
             exhibit.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibit.WarehouseId);
             exhibit.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibit.ExhibitTypeId);
+            exhibit.Authors = _dbContext.Authors.Where(author => exhibit.AuthorsId.Contains(author.Id)).ToList();
 
             _dbContext.Exhibits.AddRange(exhibit);
             _dbContext.SaveChanges();

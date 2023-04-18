@@ -30,6 +30,10 @@ namespace ExhibitionApp.Models
 
         [DisplayName("Авторы")]
         public virtual List<Author> Authors { get; set; } = new List<Author>();
+        
+        [NotMapped]
+        [DisplayName("Авторы")]
+        public List<long> AuthorsId { get; set; } = new List<long>();
 
         public virtual List<Exhibition>? Exhibitions { get; set; } = new List<Exhibition>();
 

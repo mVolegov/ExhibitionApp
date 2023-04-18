@@ -25,10 +25,42 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="col-sm-12">
-                <label asp-for="Authors" class="control-label"></label>
-                <select asp-for="Authors" class="form-control" asp-items=@ViewBag.Authors multiple></select>
-                <span asp-validation-for="Authors" class="text-danger"></span>
+                <label asp-for="AuthorsId" class="control-label"></label>
+                <select asp-for="AuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
+                <span asp-validation-for="AuthorsId" class="text-danger"></span>
             </div>
+            @*<table class="table">
+                <tr>
+                    <th>
+                        <label asp-for="Authors" class="control-label"></label>
+                    </th>
+                    <th>
+                        Удалить / Добавить
+                    </th>
+                </tr>
+                @foreach (var a in authors)
+                {
+                    <tr>
+                        <td>@a.Patronymic</td>
+                        @if (Model.SelectedIds.Contains(a.))
+                        {
+                            <td>
+                                <form asp-action="AddAuthor" method="post" asp-route-id="@a.Id">
+                                    <input class="btn btn-default" type="submit" value="Удалить" />
+                                </form>
+                            </td>
+                        } 
+                        else
+                        {
+                            <td>
+                                <form asp-action="RemoveAuthor" method="post" asp-route-id="@n.Id">
+                                    <input class="btn btn-default" type="submit" value="Добавить" />
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>*@
             <div class="col-sm-6 pe-2">
                 <label asp-for="CreationDate" class="control-label"></label>
                 <input type="date" asp-for="CreationDate" class="form-control"/>
