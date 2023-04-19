@@ -85,10 +85,9 @@ namespace ExhibitionApp.Controllers
         [HttpPost]
         public IActionResult Edit(Exhibit exhibitToUpdate)
         {
-            exhibitToUpdate.Warehouse =
-                _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
-            exhibitToUpdate.ExhibitType =
-                _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
+            // TODO implement authors update
+            exhibitToUpdate.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
+            exhibitToUpdate.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
             exhibitToUpdate.Authors = _dbContext.Authors.Where(author => exhibitToUpdate.AuthorsId.Contains(author.Id)).ToList();
 
             _dbContext.Attach(exhibitToUpdate);
