@@ -28,12 +28,12 @@ namespace ExhibitionApp.Models
 
         public virtual ExhibitType ExhibitType { get; set; }
 
-        [DisplayName("Авторы")]
-        public virtual List<Author> Authors { get; set; } = new List<Author>();
-        
-        [NotMapped]
+        //[NotMapped]
         [DisplayName("Авторы")]
         public List<long> AuthorsId { get; set; } = new List<long>();
+
+        [DisplayName("Авторы")]
+        public virtual List<Author> Authors { get; set; } = new List<Author>();
 
         public virtual List<Exhibition>? Exhibitions { get; set; } = new List<Exhibition>();
 

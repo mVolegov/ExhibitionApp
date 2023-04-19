@@ -39,7 +39,7 @@ namespace ExhibitionApp.Controllers
             ViewBag.Warehouses = warehouses;
 
             var authorsFromDb = _dbContext.Authors;
-            MultiSelectList authors = new MultiSelectList(authorsFromDb, "Id", "Pseudonym");
+            SelectList authors = new SelectList(authorsFromDb, "Id", "Pseudonym");
             ViewBag.Authors = authors;
 
             return View();
@@ -57,5 +57,57 @@ namespace ExhibitionApp.Controllers
 
             return RedirectToAction("GetAllExhibits");
         }
+
+        public IActionResult Edit(long? id)
+        {
+            SelectList exhibitTypes = new SelectList(_dbContext.ExhibitTypes, "Id", "TypeName");
+            ViewBag.ExhibitTypes = exhibitTypes;
+
+            var warehousesFromDb = _dbContext
+                .Warehouses
+                .Include(w => w.Address.Street.City);
+            SelectList warehouses = new SelectList(warehousesFromDb, "Id", "Address");
+            ViewBag.Warehouses = warehouses;
+
+            var authorsFromDb = _dbContext.Authors;
+            MultiSelectList authors = new MultiSelectList(authorsFromDb, "Id", "Pseudonym");
+            ViewBag.Authors = authors;
+
+            var exhibitToUpdate = _dbContext.Exhibits.FirstOrDefault(e => e.Id == id);
+            ViewBag.ExhibitId = id;
+
+            ViewBag.CreationDate = exhibitToUpdate.CreationDate.ToString();
+            ViewBag.ArrivalDate = exhibitToUpdate.ArrivalDate.ToString();
+
+            return View(exhibitToUpdate);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Exhibit exhibitToUpdate)
+        {
+            exhibitToUpdate.Warehouse =
+                _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
+            exhibitToUpdate.ExhibitType =
+                _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
+            exhibitToUpdate.Authors = _dbContext.Authors.Where(author => exhibitToUpdate.AuthorsId.Contains(author.Id)).ToList();
+
+            _dbContext.Attach(exhibitToUpdate);
+            _dbContext.Entry(exhibitToUpdate).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("GetAllExhibits");
+        }
+
+        public IActionResult Delete(long? id)
+        {
+            var exhibitToDelete = _dbContext.Exhibits.Find(id);
+            _dbContext.Exhibits.Remove(exhibitToDelete);
+
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("GetAllExhibits");
+        }
+
+        
     }
 }

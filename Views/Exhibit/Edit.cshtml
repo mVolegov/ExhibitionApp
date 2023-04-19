@@ -1,0 +1,57 @@
+﻿@model ExhibitionApp.Models.Exhibit
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h3>Обновление данных экспоната под номером: @ViewBag.ExhibitId</h3>
+</div>
+
+<form asp-action="Edit">
+    <div class="row g-4 mt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id"/>
+        <div class="col-sm-12">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 pe-2">
+            <label asp-for="CreationDate" class="control-label"></label>
+            <input type="date" asp-for="CreationDate" class="form-control" value=@Model.CreationDate.ToString("O") />
+            <span asp-validation-for="CreationDate" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6 ps-2">
+            <label asp-for="ArrivalDate" class="control-label"></label>
+            <input type="date" asp-for="ArrivalDate" class="form-control" value=@Model.ArrivalDate.ToString("O") />
+            <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AuthorsId" class="control-label"></label>
+            <select asp-for="AuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
+            <span asp-validation-for="AuthorsId" class="text-danger"></span>
+        </div>
+        <div class="col-sm-12">
+            <label asp-for="ExhibitTypeId" class="control-label"></label>
+            <select asp-for="ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
+            <span asp-validation-for="ExhibitTypeId" class="text-danger"></span>
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="WarehouseId" class="control-label"></label>
+            <select asp-for="WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
+            <span asp-validation-for="WarehouseId" class="text-danger"></span>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+
+<div class="text-center mt-4">
+    <a class="btn btn-outline-warning" asp-action="GetAllExhibits">Отмена</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
