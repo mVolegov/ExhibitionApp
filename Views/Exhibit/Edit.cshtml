@@ -1,4 +1,4 @@
-﻿@model ExhibitionApp.Models.Exhibit
+﻿@model ExhibitionApp.Models.ExhibitViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,36 +11,36 @@
 <form asp-action="Edit">
     <div class="row g-4 mt-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="Exhibit.Id"/>
         <div class="col-sm-12">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control"/>
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="Exhibit.Name" class="control-label"></label>
+            <input asp-for="Exhibit.Name" class="form-control" />
+            <span asp-validation-for="Exhibit.Name" class="text-danger"></span>
         </div>
         <div class="col-sm-6 pe-2">
-            <label asp-for="CreationDate" class="control-label"></label>
-            <input type="date" asp-for="CreationDate" class="form-control" value=@Model.CreationDate.ToString("O") />
-            <span asp-validation-for="CreationDate" class="text-danger"></span>
+            <label asp-for="Exhibit.CreationDate" class="control-label"></label>
+            <input type="date" asp-for="Exhibit.CreationDate" class="form-control" value=@Model.Exhibit.CreationDate.ToString("O") />
+            <span asp-validation-for="Exhibit.CreationDate" class="text-danger"></span>
         </div>
         <div class="col-sm-6 ps-2">
-            <label asp-for="ArrivalDate" class="control-label"></label>
-            <input type="date" asp-for="ArrivalDate" class="form-control" value=@Model.ArrivalDate.ToString("O") />
-            <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+            <label asp-for="Exhibit.ArrivalDate" class="control-label"></label>
+            <input type="date" asp-for="Exhibit.ArrivalDate" class="form-control" value=@Model.Exhibit.ArrivalDate.ToString("O") />
+            <span asp-validation-for="Exhibit.ArrivalDate" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="AuthorsId" class="control-label"></label>
-            <select asp-for="AuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
-            <span asp-validation-for="AuthorsId" class="text-danger"></span>
+            <label asp-for="SelectedAuthorsId" class="control-label"></label>
+            <select id="Authors" asp-for="SelectedAuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
+            <span asp-validation-for="SelectedAuthorsId" class="text-danger"></span>
         </div>
         <div class="col-sm-12">
-            <label asp-for="ExhibitTypeId" class="control-label"></label>
-            <select asp-for="ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
-            <span asp-validation-for="ExhibitTypeId" class="text-danger"></span>
+            <label asp-for="Exhibit.ExhibitTypeId" class="control-label"></label>
+            <select asp-for="Exhibit.ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
+            <span asp-validation-for="Exhibit.ExhibitTypeId" class="text-danger"></span>
         </div>
         <div class="col-sm-6">
-            <label asp-for="WarehouseId" class="control-label"></label>
-            <select asp-for="WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
-            <span asp-validation-for="WarehouseId" class="text-danger"></span>
+            <label asp-for="Exhibit.WarehouseId" class="control-label"></label>
+            <select asp-for="Exhibit.WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
+            <span asp-validation-for="Exhibit.WarehouseId" class="text-danger"></span>
         </div>
         <div class="form-group text-center">
             <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
@@ -51,6 +51,16 @@
 <div class="text-center mt-4">
     <a class="btn btn-outline-warning" asp-action="GetAllExhibits">Отмена</a>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Authors").multiselect({
+            templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle btn btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
+            },
+        });
+    });
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
