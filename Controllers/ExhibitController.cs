@@ -74,7 +74,7 @@ namespace ExhibitionApp.Controllers
             MultiSelectList authors = new MultiSelectList(authorsFromDb, "Id", "Pseudonym");
             ViewBag.Authors = authors;
 
-            var exhibitToUpdate = _dbContext.Exhibits.FirstOrDefault(e => e.Id == id);
+            var exhibitToUpdate = _dbContext.Exhibits.Include(e => e.Authors).FirstOrDefault(e => e.Id == id);
             ViewBag.ExhibitId = id;
 
             ViewBag.CreationDate = exhibitToUpdate.CreationDate.ToString();
