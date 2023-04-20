@@ -9,43 +9,42 @@
 </div>
 
 <form asp-action="Edit">
-    <div class="row g-4 mt-3">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Exhibit.Id"/>
-        <div class="col-sm-12">
+        <div class="form-group w-50 mx-auto mt-5">
             <label asp-for="Exhibit.Name" class="control-label"></label>
             <input asp-for="Exhibit.Name" class="form-control" />
             <span asp-validation-for="Exhibit.Name" class="text-danger"></span>
         </div>
-        <div class="col-sm-6 pe-2">
+        <div class="form-group w-50 mx-auto mt-3">
+            <label asp-for="SelectedAuthorsId" class="control-label"></label><br />
+            <select id="Authors" asp-for="SelectedAuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
+            <span asp-validation-for="SelectedAuthorsId" class="text-danger"></span>
+        </div>
+        <div class="form-group w-50 mx-auto mt-3">
             <label asp-for="Exhibit.CreationDate" class="control-label"></label>
             <input type="date" asp-for="Exhibit.CreationDate" class="form-control" value=@Model.Exhibit.CreationDate.ToString("O") />
             <span asp-validation-for="Exhibit.CreationDate" class="text-danger"></span>
         </div>
-        <div class="col-sm-6 ps-2">
+        <div class="form-group w-50 mx-auto mt-3">
             <label asp-for="Exhibit.ArrivalDate" class="control-label"></label>
             <input type="date" asp-for="Exhibit.ArrivalDate" class="form-control" value=@Model.Exhibit.ArrivalDate.ToString("O") />
             <span asp-validation-for="Exhibit.ArrivalDate" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="SelectedAuthorsId" class="control-label"></label>
-            <select id="Authors" asp-for="SelectedAuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
-            <span asp-validation-for="SelectedAuthorsId" class="text-danger"></span>
-        </div>
-        <div class="col-sm-12">
+
+        <div class="form-group w-50 mx-auto mt-3">
             <label asp-for="Exhibit.ExhibitTypeId" class="control-label"></label>
             <select asp-for="Exhibit.ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
             <span asp-validation-for="Exhibit.ExhibitTypeId" class="text-danger"></span>
         </div>
-        <div class="col-sm-6">
+        <div class="form-group w-50 mx-auto mt-3">
             <label asp-for="Exhibit.WarehouseId" class="control-label"></label>
             <select asp-for="Exhibit.WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
             <span asp-validation-for="Exhibit.WarehouseId" class="text-danger"></span>
         </div>
-        <div class="form-group text-center">
+        <div class="form-group text-center mt-5">
             <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
         </div>
-    </div>
 </form>
 
 <div class="text-center mt-4">
@@ -56,7 +55,7 @@
     $(document).ready(function () {
         $("#Authors").multiselect({
             templates: {
-                button: '<button type="button" class="multiselect dropdown-toggle btn btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
+                button: '<button type="button" class="multiselect dropdown-toggle btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
             },
         });
     });

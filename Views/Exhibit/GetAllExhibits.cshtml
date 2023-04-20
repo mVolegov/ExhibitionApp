@@ -42,12 +42,14 @@
                     @Html.DisplayFor(modelItem => item.ArrivalDate)
                 </td>
                 <td>
-                    @foreach (var author in item.Authors)
-                    {
-                        <li>
-                            @author.Pseudonym
-                        </li>
-                    }
+                    <ul class="list-unstyled">
+                        @foreach (var author in item.Authors)
+                        {
+                            <li>
+                                @author.Pseudonym
+                            </li>
+                        }
+                    </ul>
                 </td>
                 <td>
                     <a class="btn btn-outline-warning ms-1" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>

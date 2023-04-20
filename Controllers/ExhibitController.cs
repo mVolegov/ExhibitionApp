@@ -51,7 +51,7 @@ namespace ExhibitionApp.Controllers
             var exhibit = exhibitModel.Exhibit;
             exhibit.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibit.WarehouseId);
             exhibit.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibit.ExhibitTypeId);
-            exhibit.Authors = _dbContext.Authors.Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id)).ToList();
+            exhibit.Authors = _dbContext.Authors.Include(a => a.Exhibits).Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id)).ToList();
 
             _dbContext.Exhibits.AddRange(exhibit);
             _dbContext.SaveChanges();
@@ -135,7 +135,5 @@ namespace ExhibitionApp.Controllers
 
             return RedirectToAction("GetAllExhibits");
         }
-
-        
     }
 }

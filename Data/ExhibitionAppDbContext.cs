@@ -25,7 +25,7 @@ namespace ExhibitionApp.Data
 
             //DbInitializer.Initialize(this);
 
-            this.ChangeTracker.AutoDetectChangesEnabled = true;
+            //this.ChangeTracker.AutoDetectChangesEnabled = true;
         }
     }
 }
