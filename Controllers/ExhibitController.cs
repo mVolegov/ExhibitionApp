@@ -103,7 +103,27 @@ namespace ExhibitionApp.Controllers
             _dbContext.Entry(exhibitToUpdate).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
+            ClearAuthors(exhibitModel.SelectedAuthorsId, exhibitToUpdate);
             return RedirectToAction("GetAllExhibits");
+        }
+
+        private void ClearAuthors(List<long> selectedId, Exhibit entry)
+        {
+            var authors = _dbContext.Authors.Include(a => a.Exhibits);
+
+            foreach (var author in authors)
+            {
+                if (!selectedId.Contains(author.Id) && author.Exhibits.Any(ex => ex.Id == entry.Id))
+                {
+                    author.Exhibits.Remove(entry);
+                }
+                else if (selectedId.Contains(author.Id) && !author.Exhibits.Any(ex => ex.Id == entry.Id))
+                {
+                    author.Exhibits.Add(entry);
+                }
+            }
+
+            _dbContext.SaveChanges();
         }
 
         public IActionResult Delete(long? id)
