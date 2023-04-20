@@ -1,4 +1,4 @@
-﻿@model ExhibitionApp.Models.Exhibit
+﻿@model ExhibitionApp.Models.ExhibitViewModel
 
 @{
     ViewData["Title"] = "CreateExhibit";
@@ -20,33 +20,33 @@
         <div class="row g-2 mt-3">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-sm-12">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Exhibit.Name" class="control-label"></label>
+                <input asp-for="Exhibit.Name" class="form-control" />
+                <span asp-validation-for="Exhibit.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AuthorsId" class="control-label"></label>
-                <select asp-for="AuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
-                <span asp-validation-for="AuthorsId" class="text-danger"></span>
+                <label asp-for="SelectedAuthorsId" class="control-label"></label>
+                <select id="Authors" asp-for="SelectedAuthorsId" class="form-control" asp-items=@ViewBag.Authors multiple></select>
+                <span asp-validation-for="SelectedAuthorsId" class="text-danger"></span>
             </div>
 
             <div class="col-sm-6 pe-2">
-                <label asp-for="CreationDate" class="control-label"></label>
-                <input type="date" asp-for="CreationDate" class="form-control"/>
-                <span asp-validation-for="CreationDate" class="text-danger"></span>
+                <label asp-for="Exhibit.CreationDate" class="control-label"></label>
+                <input type="date" asp-for="Exhibit.CreationDate" class="form-control" />
+                <span asp-validation-for="Exhibit.CreationDate" class="text-danger"></span>
             </div>
             <div class="col-sm-6 ps-2">
-                <label asp-for="ArrivalDate" class="control-label"></label>
-                <input type="date" asp-for="ArrivalDate" class="form-control"/>
-                <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+                <label asp-for="Exhibit.ArrivalDate" class="control-label"></label>
+                <input type="date" asp-for="Exhibit.ArrivalDate" class="form-control" />
+                <span asp-validation-for="Exhibit.ArrivalDate" class="text-danger"></span>
             </div>
             <div class="col-sm-12">
-                <label asp-for="ExhibitTypeId" class="control-label"></label>
-                <select asp-for="ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
+                <label asp-for="Exhibit.ExhibitTypeId" class="control-label"></label>
+                <select asp-for="Exhibit.ExhibitTypeId" class="form-control" asp-items="ViewBag.ExhibitTypes"></select>
             </div>
             <div class="col-sm-6">
-                <label asp-for="WarehouseId" class="control-label"></label>
-                <select asp-for="WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
+                <label asp-for="Exhibit.WarehouseId" class="control-label"></label>
+                <select asp-for="Exhibit.WarehouseId" class="form-control" asp-items="ViewBag.Warehouses"></select>
             </div>
             <div class="form-group mt-3">
                 <input type="submit" value="Добавить" class="btn btn-primary"/>
@@ -61,14 +61,12 @@
     
 }
 
-@*<script type="text/javascript">
-    $('select').selectpicker();
-</script>*@
-
-@*<script type="text/javascript">
-    $(function () {
-        $('#AuthorsId').multiselect({
-            includeSelectAllOption: true,
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Authors").multiselect({
+            templates: {
+                button: '<button type="button" class="multiselect dropdown-toggle btn btn-primary" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
+            },
         });
     });
-</script>*@
+</script>

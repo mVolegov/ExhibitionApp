@@ -46,11 +46,12 @@ namespace ExhibitionApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateExhibit(Exhibit exhibit)
+        public IActionResult CreateExhibit(ExhibitViewModel exhibitModel)
         {
+            var exhibit = exhibitModel.Exhibit;
             exhibit.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibit.WarehouseId);
             exhibit.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibit.ExhibitTypeId);
-            exhibit.Authors = _dbContext.Authors.Where(author => exhibit.AuthorsId.Contains(author.Id)).ToList();
+            exhibit.Authors = _dbContext.Authors.Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id)).ToList();
 
             _dbContext.Exhibits.AddRange(exhibit);
             _dbContext.SaveChanges();
@@ -73,28 +74,56 @@ namespace ExhibitionApp.Controllers
             MultiSelectList authors = new MultiSelectList(authorsFromDb, "Id", "Pseudonym");
             ViewBag.Authors = authors;
 
-            var exhibitToUpdate = _dbContext.Exhibits.FirstOrDefault(e => e.Id == id);
+            var exhibitToUpdate = _dbContext.Exhibits.Include(e => e.Authors).FirstOrDefault(e => e.Id == id);
             ViewBag.ExhibitId = id;
 
             ViewBag.CreationDate = exhibitToUpdate.CreationDate.ToString();
             ViewBag.ArrivalDate = exhibitToUpdate.ArrivalDate.ToString();
 
-            return View(exhibitToUpdate);
+            var model = new ExhibitViewModel()
+            {
+                Exhibit = exhibitToUpdate,
+                SelectedAuthorsId = exhibitToUpdate.Authors.Select(e => e.Id).ToList(),
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(Exhibit exhibitToUpdate)
+        public IActionResult Edit(ExhibitViewModel exhibitModel)
         {
-            // TODO implement authors update
-            exhibitToUpdate.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
-            exhibitToUpdate.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
-            exhibitToUpdate.Authors = _dbContext.Authors.Where(author => exhibitToUpdate.AuthorsId.Contains(author.Id)).ToList();
+            var exhibitToUpdate = exhibitModel.Exhibit;
 
             _dbContext.Attach(exhibitToUpdate);
+
+            exhibitToUpdate.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
+            exhibitToUpdate.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
+            exhibitToUpdate.Authors = _dbContext.Authors.Include(a => a.Exhibits).Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id)).ToList();
+
             _dbContext.Entry(exhibitToUpdate).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
+            ClearAuthors(exhibitModel.SelectedAuthorsId, exhibitToUpdate);
             return RedirectToAction("GetAllExhibits");
+        }
+
+        private void ClearAuthors(List<long> selectedId, Exhibit entry)
+        {
+            var authors = _dbContext.Authors.Include(a => a.Exhibits);
+
+            foreach (var author in authors)
+            {
+                if (!selectedId.Contains(author.Id) && author.Exhibits.Any(ex => ex.Id == entry.Id))
+                {
+                    author.Exhibits.Remove(entry);
+                }
+                else if (selectedId.Contains(author.Id) && !author.Exhibits.Any(ex => ex.Id == entry.Id))
+                {
+                    author.Exhibits.Add(entry);
+                }
+            }
+
+            _dbContext.SaveChanges();
         }
 
         public IActionResult Delete(long? id)
