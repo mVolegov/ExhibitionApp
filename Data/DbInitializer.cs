@@ -260,7 +260,16 @@ namespace ExhibitionApp.Data
                 Exhibits = new List<Exhibit>() { exhibit2 },
             };
 
-            dbContext.Exhibitions.AddRange(exhibition1, exhibition2);
+            Exhibition exhibition3 = new Exhibition()
+            {
+                Name = "Название выставки 3",
+                Address = address2,
+                HostingDate = new DateTime(2024, 5, 5, 9, 30, 0, DateTimeKind.Utc),
+                ExpirationDate = new DateTime(2024, 7, 3, 15, 0, 0, DateTimeKind.Utc),
+                Exhibits = new List<Exhibit>() { exhibit1, exhibit2 },
+            };
+
+            dbContext.Exhibitions.AddRange(exhibition1, exhibition2, exhibition3);
 
             dbContext.SaveChanges();
         }

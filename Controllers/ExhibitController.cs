@@ -110,7 +110,11 @@ namespace ExhibitionApp.Controllers
 
             exhibitToUpdate.Warehouse = _dbContext.Warehouses.FirstOrDefault(warehouse => warehouse.Id == exhibitToUpdate.WarehouseId);
             exhibitToUpdate.ExhibitType = _dbContext.ExhibitTypes.FirstOrDefault(exhibitType => exhibitType.Id == exhibitToUpdate.ExhibitTypeId);
-            exhibitToUpdate.Authors = _dbContext.Authors.Include(a => a.Exhibits).Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id)).ToList();
+            exhibitToUpdate.Authors = _dbContext
+                .Authors
+                .Include(a => a.Exhibits)
+                .Where(author => exhibitModel.SelectedAuthorsId.Contains(author.Id))
+                .ToList();
 
             _dbContext.Entry(exhibitToUpdate).State = EntityState.Modified;
             _dbContext.SaveChanges();

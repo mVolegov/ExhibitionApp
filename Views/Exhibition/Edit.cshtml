@@ -1,0 +1,63 @@
+﻿@model ExhibitionApp.Models.ExhibitionViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center">
+    <h3>Обновление данных выставки под номером: @ViewBag.ExhibitionId</h3>
+</div>
+
+
+<form asp-action="Edit">
+    <div class="row g-2 mt-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Exhibition.Id"/>
+        <div class="form-group col-sm-12">
+            <label asp-for="Exhibition.Name" class="control-label"></label>
+            <input asp-for="Exhibition.Name" class="form-control"/>
+            <span asp-validation-for="Exhibition.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-12">
+            <label asp-for="Exhibition.AddressId" class="control-label">Адрес</label>
+            <select asp-for="Exhibition.AddressId" class="form-control" asp-items="ViewBag.Addresses"></select>
+            <span asp-validation-for="Exhibition.AddressId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-6 pe-2">
+            <label asp-for="Exhibition.HostingDate" class="control-label"></label>
+            <input asp-for="Exhibition.HostingDate" class="form-control"/>
+            <span asp-validation-for="Exhibition.HostingDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-6 ps-2">
+            <label asp-for="Exhibition.ExpirationDate" class="control-label"></label>
+            <input asp-for="Exhibition.ExpirationDate" class="form-control"/>
+            <span asp-validation-for="Exhibition.ExpirationDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-12">
+            <label asp-for="SelectedExhibitsId" class="control-label"></label><br/>
+            <select id="Exhibits" asp-for="SelectedExhibitsId" class="form-control" asp-items=@ViewBag.Exhibits multiple></select>
+            <span asp-validation-for="SelectedExhibitsId" class="text-danger"></span>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" value="Сохранить изменения" class="btn btn-primary"/>
+        </div>
+    </div>
+</form>
+
+<div class="text-center mt-4">
+    <a class="btn btn-outline-warning" asp-action="GetAllExhibitions">Отмена</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Exhibits").multiselect({
+                templates: {
+                    button: '<button type="button" class="multiselect dropdown-toggle btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
+                },
+            });
+        });
+    </script>
+}
