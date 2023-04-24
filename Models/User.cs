@@ -23,7 +23,7 @@ namespace ExhibitionApp.Models
         ]
         public string PasswordHash { get; set; } = null!;
 
-        [Display(Name = "Администратор")]
-        public bool IsAdmin { get; set; }
+        [Display(Name = "Работник склада")]
+        public bool IsStorekeeper { get; set; }
     }
 }

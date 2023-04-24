@@ -1,4 +1,5 @@
 ﻿using ExhibitionApp.Models;
+using ExhibitionApp.Utils;
 
 namespace ExhibitionApp.Data
 {
@@ -7,6 +8,22 @@ namespace ExhibitionApp.Data
         public static void Initialize(ExhibitionAppDbContext dbContext)
         {
             dbContext.Database.EnsureCreated();
+
+            User user1 = new User()
+            {
+                Name = "alex",
+                PasswordHash = PasswordHash.GetHash("123456".ToArray()),
+                IsStorekeeper = false
+            };
+
+            User user2 = new User()
+            {
+                Name = "boss",
+                PasswordHash = PasswordHash.GetHash("123456".ToArray()),
+                IsStorekeeper = true
+            };
+
+            dbContext.AddRange(user1, user2);
 
             // Add cities
             City city1 = new City()
