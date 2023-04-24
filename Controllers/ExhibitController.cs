@@ -26,6 +26,18 @@ namespace ExhibitionApp.Controllers
             return View(allExhibits);
         }
 
+        public IActionResult Details(long? id)
+        {
+            var exhibitToShow = _dbContext
+                .Exhibits
+                .Include(e => e.ExhibitType)
+                .Include(e => e.Authors)
+                .Include(e => e.Warehouse.Address.Street.City)
+                .FirstOrDefault(e => e.Id == id);
+
+            return View(exhibitToShow);
+        }
+
         [HttpGet]
         public IActionResult CreateExhibit()
         {

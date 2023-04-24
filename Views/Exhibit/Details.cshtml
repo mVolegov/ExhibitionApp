@@ -1,0 +1,88 @@
+﻿@model ExhibitionApp.Models.Exhibit
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="text-center">
+        <h3>Просмотр информации об экспонате</h3>
+        <h3>@Model.Name (ID @Model.Id)</h3>
+    </div>
+
+    <hr/>
+            
+    <div>
+        <a class="btn btn-outline-primary" asp-action="GetAllExhibits"><b>&#8592</b> Назад к списку экспонатов</a>
+    </div>
+    
+    
+        <div class="row g-2 mt-3">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <ul class="list-group list-group-flush text-center">
+                        <li class="list-group-item">
+                            <b>Название экспоната</b><br/>
+                            @Model.Name
+                        </li>
+                        <li class="list-group-item">
+                            <b>Дата создания</b><br/>
+                            @Model.CreationDate
+                        </li>
+                        <li class="list-group-item">
+                            <b>Дата поступления</b><br />
+                            @Model.ArrivalDate
+                        </li>
+                        <li class="list-group-item">
+                            <b>Тип экспоната</b><br />
+                            @Model.ExhibitType.TypeName
+                        </li>
+                        <li class="list-group-item">
+                            <b>Авторы</b><br />
+                            <ul class="list-unstyled list-inline">
+                                @foreach (var author in @Model.Authors)
+                                {
+                                    <li class="list-inline-item">
+                                        @author.Pseudonym
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Склад</b><br />
+                            @Model.Warehouse.Address
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+
+        @*<p class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreationDate)
+        </p>
+        <p class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreationDate)
+        </p>
+        <p class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ArrivalDate)
+        </p>
+        <p class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArrivalDate)
+        </p>
+        <p class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ExhibitType)
+        </p>
+        <p class = "col-sm-10">
+            @Html.DisplayFor(model => model.ExhibitType.TypeName)
+        </p>
+        <p class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Warehouse)
+        </p>
+        <p class = "col-sm-10">
+            @Html.DisplayFor(model => model.Warehouse.Id)
+        </p>*@
+    
+</div>
