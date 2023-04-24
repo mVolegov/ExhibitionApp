@@ -24,11 +24,20 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item mx-1">
+                                    <a class=@(ViewContext.RouteData.Values["controller"].ToString() == "Poster" ?
+                                                 "nav-link text-white active" : "nav-link text-white")
+                                       asp-area=""
+                                       asp-controller="Poster"
+                                       asp-action="UpcomingExhibitions">
+                                        Guest TEST
+                                    </a>
+                                </li>
+                                <li class="nav-item mx-1">
                                     <a class=@(ViewContext.RouteData.Values["controller"].ToString() == "Exhibition" ?
                                                  "nav-link text-white active" : "nav-link text-white")
-                                        asp-area=""
-                                        asp-controller="Exhibition"
-                                        asp-action="GetAllExhibitions">
+                                       asp-area=""
+                                       asp-controller="Exhibition"
+                                       asp-action="GetAllExhibitions">
                                         Выставки
                                     </a>
                                 </li>

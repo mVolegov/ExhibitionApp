@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ExhibitionApp.Models.Exhibition>
+
+@{
+    ViewData["Title"] = "UpcomingExhibitions";
+}
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">PERMM - Пермский музей современного искусства</h1>
+            <p class="lead text-body-secondary">Ведущий государственный музей современного искусства за пределами двух столиц — 
+                представляет актуальное российское искусство XX – XXI веков.
+            </p>
+        </div>
+    </div>
+</section>
+
+<h1 class="mt-2 text-center">Предстоящие выставки</h1>
+
+
+    <table class="table text-center table-borderless table-hover">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.HostingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpirationDate)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.Street.City.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address.Street.Name)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Address.HouseNumber)
+                <td>
+                    @Html.DisplayFor(modelItem => item.HostingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationDate)
+                </td>
+                <td>
+                        <a class="btn btn-outline-primary ms-1" asp-action="Details" asp-route-id="@item.Id">Узнать подробнее</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>

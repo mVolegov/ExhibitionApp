@@ -27,13 +27,13 @@ namespace ExhibitionApp.Controllers
 
         public IActionResult GetAllUpcomingExhibitions()
         {
-            var allExhibitions = _dbContext
+            var upcomingExhibitions = _dbContext
                 .Exhibitions
                 .Include(e => e.Address.Street.City)
                 .Where(e => e.HostingDate.CompareTo(DateTime.Now.ToUniversalTime()) > 0)
                 .ToList();
 
-            return View(allExhibitions);
+            return View(upcomingExhibitions);
         }
 
         public IActionResult Details(long? id)

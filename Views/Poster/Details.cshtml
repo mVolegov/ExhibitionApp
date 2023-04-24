@@ -1,0 +1,78 @@
+﻿@model ExhibitionApp.Models.Exhibition
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container">
+    <div class="text-center">
+        <h3>@Model.Name</h3>
+    </div>
+
+    <hr />
+
+    <div>
+        <a class="btn btn-outline-primary" asp-action="UpcomingExhibitions"><b>&#8592</b> к афише</a>
+    </div>
+
+    <div class="row g-2">
+
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-8">
+
+            <fieldset disabled>
+                <div class="row g-2 mt-3">
+
+                    <div class="col-sm-12">
+                        <b>Название выставки</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.Name" />
+                    </div>
+
+                    <div class="col-sm-6 mt-3">
+                        <b>Дата начала</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.HostingDate" />
+                    </div>
+
+                    <div class="col-sm-6 mt-3">
+                        <b>Дата окончания</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.ExpirationDate" />
+                    </div>
+
+                    <div class="col-sm-4 mt-3">
+                        <b>Город</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.Address.Street.City.Name" />
+                    </div>
+
+                    <div class="col-sm-4 mt-3">
+                        <b>Улица</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.Address.Street.Name" />
+                    </div>
+
+                    <div class="col-sm-4 mt-3">
+                        <b>Номер дома</b><br />
+                        <input type="text" class="form-control text-center" value="@Model.Address.HouseNumber" />
+                    </div>
+
+                    <div class="col-sm-12 mt-3 text-center">
+                        <b>Представленные эскпонаты</b><br />
+                        <ul class="list-group">
+                            @foreach (var exhibit in @Model.Exhibits)
+                            {
+                                <li class="list-group-item">
+                                    @exhibit.Name
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </fieldset>
+            <div class="text-center">
+                <a class="btn btn-success btn-lg text-center my-5" asp-action="Stub">Купить билет</a>
+            </div>
+        </div>
+
+        <div class="col-sm-2"></div>
+    </div>
+</div>
