@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace ExhibitionApp.Areas.Account.Controllers
 {
@@ -42,7 +43,14 @@ namespace ExhibitionApp.Areas.Account.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            return RedirectToRoute("default", new { controller = "Poster", action = "UpcomingExhibitions" });
+            if (user.IsStorekeeper)
+            {
+                return RedirectToRoute("default", new { controller = "Exhibit", action = "GetAllExhibits" });
+            }
+            else
+            {
+                return RedirectToRoute("default", new { controller = "Exhibition", action = "GetAllExhibitions" });
+            }
         }
 
         public async Task<IActionResult> UserSignOut()

@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<ExhibitionApp.Models.Exhibition>
 
 @{
+    Layout = null;
     ViewData["Title"] = "UpcomingExhibitions";
 }
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
 
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
@@ -15,8 +19,16 @@
     </div>
 </section>
 
-<h1 class="mt-2 text-center">Предстоящие выставки</h1>
+<div class="text-center mb-5">
+    <a class="btn btn-success btn-lg"
+       asp-area="Account"
+       asp-controller="UserLogin"
+       asp-action="Index">
+        Войти
+    </a>
+</div>
 
+<h1 class="mt-2 text-center">Предстоящие выставки</h1>
 
     <table class="table text-center table-borderless table-hover">
         <thead>

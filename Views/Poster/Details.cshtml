@@ -1,15 +1,16 @@
 ﻿@model ExhibitionApp.Models.Exhibition
 
 @{
+    Layout = null;
     ViewData["Title"] = "Details";
 }
 
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
 <div class="container">
-    <div class="text-center">
+    <div class="text-center mt-5">
         <h3>@Model.Name</h3>
     </div>
-
-    <hr />
 
     <div>
         <a class="btn btn-outline-primary" asp-action="UpcomingExhibitions"><b>&#8592</b> к афише</a>
