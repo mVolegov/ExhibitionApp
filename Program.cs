@@ -1,4 +1,5 @@
 using ExhibitionApp.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ExhibitionAppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/UserLogin";
+    });
+
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("IsStorekeeper",
+          policy => policy.RequireClaim("role", "Storekeeper"));
+        options.AddPolicy("IsManager",
+          policy => policy.RequireClaim("role", "Manager"));
+    });
 
 var app = builder.Build();
 
@@ -29,9 +44,15 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
+
+app.MapAreaControllerRoute(
+        name: "AccountArea",
+        areaName: "Account",
+        pattern: "Account/{controller=UserLogin}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Exhibit}/{action=GetAllExhibits}/{id?}");
+    pattern: "{controller=Poster}/{action=UpcomingExhibitions}/{id?}");
 
 app.Run();

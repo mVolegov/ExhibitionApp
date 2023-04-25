@@ -35,14 +35,14 @@ namespace ExhibitionApp.Areas.Account.Controllers
 
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.Name));
-            claims.Add(new Claim("role", user.IsAdmin ? "Storekeeper" : "Manager"));
+            claims.Add(new Claim("role", user.IsStorekeeper ? "Storekeeper" : "Manager"));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            return RedirectToRoute("default", new { controller = "Product", action = "Index" });
+            return RedirectToRoute("default", new { controller = "Poster", action = "UpcomingExhibitions" });
         }
 
         public async Task<IActionResult> UserSignOut()

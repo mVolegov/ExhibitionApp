@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<style>
+#outer {
+  width:100%;
+  display: flex;
+  justify-content: center;
+}
+</style>
+
+<div id="outer">
+    <div>
+        <h1>Автоматизированная система управления складом</h1>
+        <form method="post">
+            
+            <div id="outer">
+                <div>                    
+                    <h4>Имя пользователя:</h4>
+                </div>
+            </div>
+            <div id="outer">
+                <div>                    
+                    <input name="login" type="text" required/>
+                </div>
+            </div>
+            <br />
+            <div id="outer">
+                <div>                    
+                    <h4>Пароль:</h4>
+                </div>   
+            </div>
+            <div id="outer">
+                <div>                    
+                    <input name="password" type="password" required/>
+                </div>                
+            </div>
+            
+            <br /> <br />
+            <div id="outer">
+                <div asp-validation-summary="ModelOnly"></div>
+            </div>
+            <div id="outer">
+                <div>                            
+                    <input class="btn btn-default" type="submit" value="Вход" />
+                </div>                
+            </div>           
+        
+        </form>
+        
+    </div>
+</div>
+
+
+
+  
+
