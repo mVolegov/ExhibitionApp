@@ -21,9 +21,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization(options =>
     {
         options.AddPolicy("IsStorekeeper",
-          policy => policy.RequireClaim("role", "Storekeeper"));
+          policy => policy.RequireRole("Storekeeper"));
         options.AddPolicy("IsManager",
-          policy => policy.RequireClaim("role", "Manager"));
+          policy => policy.RequireRole("Manager"));
     });
 
 var app = builder.Build();
@@ -43,8 +43,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapAreaControllerRoute(
         name: "AccountArea",

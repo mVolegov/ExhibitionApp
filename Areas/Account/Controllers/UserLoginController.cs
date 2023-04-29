@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
 
 namespace ExhibitionApp.Areas.Account.Controllers
 {
@@ -36,7 +35,7 @@ namespace ExhibitionApp.Areas.Account.Controllers
 
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.Name));
-            claims.Add(new Claim("role", user.IsStorekeeper ? "Storekeeper" : "Manager"));
+            claims.Add(new Claim(ClaimTypes.Role, user.IsStorekeeper ? "Storekeeper" : "Manager"));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             ClaimsPrincipal principal = new ClaimsPrincipal(identity);

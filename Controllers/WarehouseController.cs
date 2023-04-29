@@ -1,11 +1,13 @@
 ﻿using ExhibitionApp.Data;
 using ExhibitionApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExhibitionApp.Controllers
 {
+    [Authorize(Roles = "Storekeeper")]
     public class WarehouseController : Controller
     {
         private readonly ExhibitionAppDbContext _dbContext;
