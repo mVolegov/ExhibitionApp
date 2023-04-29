@@ -1,4 +1,5 @@
 ﻿using ExhibitionApp.Data;
+using ExhibitionApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,15 @@ namespace ExhibitionApp.Controllers
 
         public IActionResult UpcomingExhibitions()
         {
+            if (HttpContext.User != null && HttpContext.User.IsInRole("Storekeeper"))
+            {
+                return RedirectToRoute("default", new { controller = "Exhibit", action = "GetAllExhibits" });
+            }
+            else if (HttpContext.User != null && HttpContext.User.IsInRole("Manager"))
+            {
+                return RedirectToRoute("default", new { controller = "Exhibition", action = "GetAllExhibitions" });
+            }
+
             var upcomingExhibitions = _dbContext
                 .Exhibitions
                 .Include(e => e.Address.Street.City)

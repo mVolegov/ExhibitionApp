@@ -16,11 +16,11 @@
             <ul class="nav nav-pills flex-column mb-auto">
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
                     <div class="container-fluid">
-                        @if (User != null && User.Identity.IsAuthenticated && User.HasClaim("role", "Manager"))
+                        @if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Manager"))
                         {
                             <a class="navbar-brand text-white" asp-area="" asp-controller="Exhibition" asp-action="GetAllExhibitions">Менеджер: @User.Identity.Name</a>
                         }
-                        else if (User != null && User.Identity.IsAuthenticated && User.HasClaim("role", "Storekeeper"))
+                        else if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Storekeeper"))
                         {
                             <a class="navbar-brand text-white" asp-area="" asp-controller="Exhibit" asp-action="GetAllExhibits">Работник склада: @User.Identity.Name</a>
                         }
@@ -53,7 +53,7 @@
                                 </li>
                             </div>
                         }
-                        @if (User != null && User.Identity.IsAuthenticated && User.HasClaim("role", "Manager"))
+                        @if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Manager"))
                         {
                             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                                 <ul class="navbar-nav flex-grow-1">
@@ -79,7 +79,7 @@
                             </div>
                         }
 
-                        @if (User != null && User.Identity.IsAuthenticated && User.HasClaim("role", "Storekeeper"))
+                        @if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Storekeeper"))
                         {
                             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                                 <ul class="navbar-nav flex-grow-1">

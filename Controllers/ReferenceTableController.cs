@@ -1,10 +1,12 @@
 ﻿using ExhibitionApp.Data;
 using ExhibitionApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExhibitionApp.Controllers
 {
+    [Authorize(Roles = "Storekeeper")]
     public class ReferenceTableController : Controller
     {
         private readonly ExhibitionAppDbContext _dbContext;
