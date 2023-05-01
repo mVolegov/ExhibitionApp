@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Отчеты и импорт";
+    var ImportTables = (SelectList)ViewData["ImportTables"]!;
+    var ExportTables = (SelectList)ViewData["ExportTables"]!;
+    var ErrorMessage = (string)(ViewData["ErrorMessage"] ?? "");
+}
+
+<h1>Отчеты и импорт</h1>
+<div>
+    @ErrorMessage
+</div>
+<table class="table">
+    <tr>
+        <td>
+            <div>
+                <form asp-action="Import" enctype="multipart/form-data" >
+                    <h4>Импорт</h4>
+                    <label>Таблица</label>
+                    <select name="importTable" asp-items="ImportTables"></select>
+                    <br />
+                    <label>Перезапись?</label>
+                    <input name="isRewriteImport" type="checkbox" value="true"/>
+                    <br />
+                    <label>Файл .csv</label>
+                    <br />
+                    <input name="importFile" type="file" /><br>
+                    <br />
+                    <input class="btn btn-success" type="submit" value="Импортировать" />
+                </form> <br>
+
+                <form asp-action="Export">
+                    <h4>Экспорт</h4>
+                    <label>Таблица</label>
+                    <select name="exportTable" asp-items="ExportTables"></select>
+                    <br /> <br />
+                    <input class="btn btn-success" type="submit" value="Экспортировать" />
+                </form>
+            </div>
+        </td>  
+        <td>
+            <div>
+                <h3>
+                    Отчеты:
+                </h3>
+
+                <form asp-action="ExhibitsReport">
+                    <h4>Об экспонатах (учитывая даты поступления). Пустые даты для отчета за сегодня.</h4>
+                    <input name="dateStartArrived" type="date" /> - 
+                    <input name="dateEndArrived" type="date" />
+                    <br> <br>
+                    <input class="btn btn-success" type="submit" value="Получить отчет" />
+                </form>
+                <br>
+                <form asp-action="ExcelReport">
+                    <h4>Сводный отчет по экспонатам (Excel)</h4>
+                    <input class="btn btn-success" type="submit" value="Получить отчет" />
+                </form>
+            </div>
+        </td>   
+    </tr>
+</table>    
+<br />
