@@ -61,7 +61,7 @@ namespace ExhibitionApp.Controllers
             {
                 switch (importTable)
                 {
-                    case "Тип выставки":
+                    case "Тип экспонатов":
                         if (isRewriteImport)
                         {
                             try
@@ -180,7 +180,7 @@ namespace ExhibitionApp.Controllers
 
             switch (exportTable)
             {
-                case "Типы выставок":
+                case "Типы экспонатов":
                     await csv.WriteRecordsAsync(_db.ExhibitTypes.ToList());
                     tableName = "ExhibitTypes";
                     break;

@@ -20,10 +20,10 @@ namespace ExhibitionApp.Data
 
         public ExhibitionAppDbContext(DbContextOptions<ExhibitionAppDbContext> options) : base(options) 
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
 
-            DbInitializer.Initialize(this);
+            //DbInitializer.Initialize(this);
         }
     }
 }
