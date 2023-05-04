@@ -30,26 +30,29 @@ namespace ExhibitionApp.Controllers
 
         public IActionResult Index(string? errorMessage)
         {
-            var tables = new List<Table>() { new Table { Name = "Тип выставки" },
+            var tables = new List<Table>() { 
+                new Table { Name = "Тип экспоната" },
                 new Table { Name = "Города"},
                 new Table { Name = "Улицы"},
                 new Table { Name = "Страны"},
                 new Table { Name = "Пол"},
             };
 
-            ViewData["ImportTables"] = new SelectList(tables, "Name", "Name", "Тип выставки");
-            ViewData["ExportTables"] = new SelectList(tables, "Name", "Name", "Тип выставки");
+            ViewData["ImportTables"] = new SelectList(tables, "Name", "Name", "Тип экспоната");
+            ViewData["ExportTables"] = new SelectList(tables, "Name", "Name", "Тип экспоната");
             ViewData["ErrorMessage"] = errorMessage;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Import(bool isRewriteImport, string importTable, IFormFile importFile)
+        public async Task<IActionResult> Import(string importTable, IFormFile importFile)
         {
             if (importFile == null || Path.GetExtension(importFile.FileName) != ".csv")
             {
                 return RedirectToAction("Index", new { errorMessage = "Неверное расширение файла!" });
             }
+
+            // Форматирование заголовков файла (Id, Name и т.д.)
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 PrepareHeaderForMatch = args => args.Header.ToLower().Replace("_", ""),
@@ -61,99 +64,65 @@ namespace ExhibitionApp.Controllers
             {
                 switch (importTable)
                 {
-                    case "Тип экспонатов":
-                        if (isRewriteImport)
+                    case "Тип экспоната":
+                        var recordsExhibitTypes = csv.GetRecords<ExhibitType>().ToList();
+
+                        foreach (ExhibitType record in recordsExhibitTypes) 
                         {
-                            try
-                            {
-                                _db.Database.ExecuteSqlRaw("TRUNCATE \"ExhibitTypes\" RESTART IDENTITY;");
-                            }
-                            catch (Exception)
-                            {
-                                return RedirectToAction("Index", new { errorMessage = "Невозможно перезаписать данные, на таблицу ссылаются внешние ключи" });
-                            }
+                            if (!_db.ExhibitTypes.Contains(record)) _db.ExhibitTypes.Add(record);
                         }
-                        var recordsNomenclature = csv.GetRecords<ExhibitType>().ToList();
-                        _db.ExhibitTypes.AddRange(recordsNomenclature);
+
                         await _db.SaveChangesAsync();
-                        _db.Database.ExecuteSqlRaw("SELECT setval('ExhibitTypes_Id_seq', (SELECT MAX(id) from \"ExhibitTypes\"));");
-                        await _db.SaveChangesAsync();
+                        
                         break;
 
                     case "Города":
-                        if (isRewriteImport)
+                        var recordsCities = csv.GetRecords<City>().ToList();
+
+                        foreach (var record in recordsCities)
                         {
-                            try
-                            {
-                                _db.Database.ExecuteSqlRaw("TRUNCATE \"Cities\" RESTART IDENTITY;");
-                            }
-                            catch (Exception)
-                            {
-                                return RedirectToAction("Index", new { errorMessage = "Невозможно перезаписать данные, на таблицу ссылаются внешние ключи" });
-                            }
+                            if (!_db.Cities.Contains(record)) _db.Cities.Add(record);
                         }
-                        var recordsProperty = csv.GetRecords<City>().ToList();
-                        _db.Cities.AddRange(recordsProperty);
+
                         await _db.SaveChangesAsync();
-                        _db.Database.ExecuteSqlRaw("SELECT setval('Cities_Id_seq', (SELECT MAX(id) from \"Cities\"));");
-                        await _db.SaveChangesAsync();
+
                         break;
 
                     case "Улицы":
-                        if (isRewriteImport)
+                        var recordsStreets = csv.GetRecords<Street>().ToList();
+
+                        foreach (var record in recordsStreets)
                         {
-                            try
-                            {
-                                _db.Database.ExecuteSqlRaw("TRUNCATE \"Streets\" RESTART IDENTITY;");
-                            }
-                            catch (Exception)
-                            {
-                                return RedirectToAction("Index", new { errorMessage = "Невозможно перезаписать данные, на таблицу ссылаются внешние ключи" });
-                            }
+                            record.City = _db.Cities.FirstOrDefault(c => c.Id == record.CityId);
+                            if (!_db.Streets.Contains(record)) _db.Streets.Add(record);
                         }
-                        var recordsCustomer = csv.GetRecords<Street>().ToList();
-                        _db.Streets.AddRange(recordsCustomer);
+
                         await _db.SaveChangesAsync();
-                        _db.Database.ExecuteSqlRaw("SELECT setval('Streets_Id_seq', (SELECT MAX(id) from \"Streets\"));");
-                        await _db.SaveChangesAsync();
+
                         break;
 
                     case "Страны":
-                        if (isRewriteImport)
+                        var recordsCountry = csv.GetRecords<Country>().ToList();
+
+                        foreach (var record in recordsCountry)
                         {
-                            try
-                            {
-                                _db.Database.ExecuteSqlRaw("TRUNCATE \"Countries\" RESTART IDENTITY;");
-                            }
-                            catch (Exception)
-                            {
-                                return RedirectToAction("Index", new { errorMessage = "Невозможно перезаписать данные, на таблицу ссылаются внешние ключи" });
-                            }
+                            if (!_db.Countries.Contains(record)) _db.Countries.Add(record);
                         }
-                        var recordsSupplier = csv.GetRecords<Country>().ToList();
-                        _db.Countries.AddRange(recordsSupplier);
+
                         await _db.SaveChangesAsync();
-                        _db.Database.ExecuteSqlRaw("SELECT setval('Countries_Id_seq', (SELECT MAX(id) from \"Countries\"));");
-                        await _db.SaveChangesAsync();
+
                         break;
 
                     case "Пол":
-                        if (isRewriteImport)
+                        var recordsSexes = csv.GetRecords<Sex>().ToList();
+
+                        foreach (var record in recordsSexes)
                         {
-                            try
-                            {
-                                _db.Database.ExecuteSqlRaw("TRUNCATE \"Sexes\" RESTART IDENTITY;");
-                            }
-                            catch (Exception)
-                            {
-                                return RedirectToAction("Index", new { errorMessage = "Невозможно перезаписать данные, на таблицу ссылаются внешние ключи" });
-                            }
+                            if (!_db.Sexes.Contains(record)) _db.Sexes.Add(record);
                         }
-                        var recordsWarehouse = csv.GetRecords<Sex>().ToList();
-                        _db.Sexes.AddRange(recordsWarehouse);
+
                         await _db.SaveChangesAsync();
-                        _db.Database.ExecuteSqlRaw("SELECT setval('Sexes_Id_seq', (SELECT MAX(id) from \"Sexes\"));");
-                        await _db.SaveChangesAsync();
+
                         break;
                 }
             }
@@ -162,7 +131,7 @@ namespace ExhibitionApp.Controllers
                 return RedirectToAction("Index", new { errorMessage = "Неверный формат данных в файле, импорт не удался" });
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { errorMessage = "Успешно импортировано" });
         }
 
         [HttpPost]
@@ -180,7 +149,7 @@ namespace ExhibitionApp.Controllers
 
             switch (exportTable)
             {
-                case "Типы экспонатов":
+                case "Тип экспоната":
                     await csv.WriteRecordsAsync(_db.ExhibitTypes.ToList());
                     tableName = "ExhibitTypes";
                     break;
@@ -191,7 +160,7 @@ namespace ExhibitionApp.Controllers
                     break;
 
                 case "Улицы":
-                    await csv.WriteRecordsAsync(_db.Streets.ToList());
+                    await csv.WriteRecordsAsync(_db.Streets.Include(s => s.City).ToList());
                     tableName = "Streets";
                     break;
 
@@ -238,8 +207,8 @@ namespace ExhibitionApp.Controllers
                 .Include(p => p.Warehouse.Address)
                 .Include(p => p.Warehouse.Address.Street)
                 .Where(ps => 
-                ps.ArrivalDate >= DateOnly.FromDateTime(dateStartArrived.Value) && 
-                ps.ArrivalDate <= DateOnly.FromDateTime(dateEndArrived.Value))
+                    ps.ArrivalDate >= DateOnly.FromDateTime(dateStartArrived.Value) && 
+                    ps.ArrivalDate <= DateOnly.FromDateTime(dateEndArrived.Value))
                 .OrderBy(ps => ps.ArrivalDate);
 
             List<TableRowContent> rows = new();
@@ -312,8 +281,9 @@ namespace ExhibitionApp.Controllers
             sheet.Cells[row, column + 8].Value = "Кол-во экспонатов:";
             sheet.Cells[row, column + 9].Value = _db.Exhibits.Count();
             sheet.Cells[row, column + 6, row, column + 9].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Medium);
+            sheet.Cells[row, column + 8].AutoFitColumns();
 
-            sheet.Protection.IsProtected = true;
+            sheet.Protection.IsProtected = false;
 
             string path = "/files/productReport.xlsx";
             System.IO.File.WriteAllBytes(_appEnvironment.WebRootPath + path, package.GetAsByteArray());

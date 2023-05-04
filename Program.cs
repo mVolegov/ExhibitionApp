@@ -18,13 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Account/UserLogin";
     });
 
-builder.Services.AddAuthorization(options =>
-    {
-        options.AddPolicy("IsStorekeeper",
-          policy => policy.RequireRole("Storekeeper"));
-        options.AddPolicy("IsManager",
-          policy => policy.RequireRole("Manager"));
-    });
+builder.Services.AddAuthorization(options => {});
 
 var app = builder.Build();
 
